@@ -7,7 +7,6 @@ import LogoSS from './img/LogoSS.png';
 import LogoSS_Menor from './img/LogoSS_Menor.png';
 import { LogoutButton } from './autenticacao/Autenticacao';
 import { useApi } from '../hooks/useApi';
-import { enviarEmailAlerta } from './EnvEmail';
 import Userfront from '@userfront/toolkit';
 import ToggleMenu from './ToggleMenu';
 
@@ -96,10 +95,6 @@ const Menu = ({ onMenuToggle }) => {
 
   return (
     <StyledMenu retract={retractMenu ? 'true' : 'false'}>
-      {/* Envio de email alerta para cada dispositivo */}
-      {data?.data?.message?.map((projeto) => {
-        return enviarEmailAlerta(projeto);
-      })}
 
       {/* Botão para alternar a retração do menu */}
       <ToggleMenu onToggle={toggleRetractMenu} />
