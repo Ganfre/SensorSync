@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useApi } from "../hooks/useApi";
 import { Container, Row, Col, Card, Table, Button } from 'react-bootstrap';
-import styled from "styled-components";
+import styled, { keyframes, css } from 'styled-components';
 import Graph from "./Graficos";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft, faTable } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faTable, faFire } from '@fortawesome/free-solid-svg-icons';
 import FilterComponent from "./Filtro";
 
 const Titulo = styled.div`
@@ -16,9 +16,16 @@ const Titulo = styled.div`
     }
 `;
 
+const Icones = styled.div`
+   display: flex;
+   align-items: center;
+   
+`;
+
 const AdmContainer = styled.div`
     padding-left: 8rem;
     padding-right: 3rem;
+    padding-bottom: 2rem;
 `;
 
 const BackButton = styled.button`
@@ -80,6 +87,21 @@ const CustomTable = styled(Table)`
         }
     }
 `;
+
+const pulsar = keyframes`
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+`;
+
+const FogoIcon = styled(FontAwesomeIcon)`
+    font-size: ${props => (props.fumaca > 0 ? '30px' : '27px')};
+    padding-top: 3px;
+    padding-right: 1.5rem;
+    color: ${props => (props.fumaca > 0 ? 'red' : 'lightgray')};
+    animation: ${props => props.fumaca > 0 ? css`${pulsar} 1s infinite` : 'none'};
+`;
+
 const DetalhesDevice = () => {
     const { id } = useParams();
     const { data } = useApi(`/devices/detalhes/${id}`);
@@ -94,6 +116,7 @@ const DetalhesDevice = () => {
     }, []);
 
     const ultimasCincoMedidas = medidas.slice(-5);
+    const fumaca = ultimasCincoMedidas.length > 0 ? ultimasCincoMedidas[ultimasCincoMedidas.length - 1].fumaca : 0; // Obtendo o último valor de fumaça para o ícone
 
     const exportToCsv = () => {
         const csvContent = "data:text/csv;charset=utf-8," +
@@ -132,45 +155,48 @@ const DetalhesDevice = () => {
                 </Row>
                 <LinhaTitulo>
                     <Titulo><h1>{data?.data?.message?.nome}</h1></Titulo>
-                    <Legenda 
-                        onMouseEnter={() => setShowPopup(true)}
-                        onMouseLeave={() => setShowPopup(false)}
-                    >
-                        <FontAwesomeIcon icon={faTable} style={{ marginRight: '10px' }} />
-                        <Popup show={showPopup}>
-                            <Table hover>
-                                <thead>
-                                    <tr>
-                                        <th colSpan="2">
-                                            <h4 style={{ color: 'black', fontWeight: 'bold' }}>Parâmetros</h4>
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody style={{ fontSize: '16px' }}>
-                                    <tr>
-                                        <th>Temperatura</th>
-                                        <td>85°C</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Luminosidade</th>
-                                        <td>15cd</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Umidade</th>
-                                        <td>10g/m³</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Fumaça</th>
-                                        <td>800</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Ruído</th>
-                                        <td>800dB</td>
-                                    </tr>
-                                </tbody>
-                            </Table>
-                        </Popup>
-                    </Legenda>
+                    <Icones>
+                        <FogoIcon icon={faFire} fumaca={fumaca} />
+                        <Legenda 
+                            onMouseEnter={() => setShowPopup(true)}
+                            onMouseLeave={() => setShowPopup(false)}
+                        >
+                            <FontAwesomeIcon icon={faTable} style={{ marginRight: '10px' }} />
+                            <Popup show={showPopup}>
+                                <Table hover>
+                                    <thead>
+                                        <tr>
+                                            <th colSpan="2">
+                                                <h4 style={{ color: 'black', fontWeight: 'bold' }}>Parâmetros</h4>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody style={{ fontSize: '16px' }}>
+                                        <tr>
+                                            <th>Temperatura</th>
+                                            <td>85°C</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Luminosidade</th>
+                                            <td>15cd</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Umidade</th>
+                                            <td>10g/m³</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Fumaça</th>
+                                            <td>800</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Ruído</th>
+                                            <td>800dB</td>
+                                        </tr>
+                                    </tbody>
+                                </Table>
+                            </Popup>
+                        </Legenda>
+                    </Icones>
                </LinhaTitulo>
                 <Row>
                     <Col md={12}>
@@ -192,11 +218,11 @@ const DetalhesDevice = () => {
                                     <tbody>
                                         {ultimasCincoMedidas.map(med => (
                                             <tr key={med.data + med.hora}>
-                                                <td style={med.temperatura > 85 ? { color: "red", fontWeight: 'bold' } : { color: "black" }}>{med.temperatura}°C</td>
-                                                <td style={med.luminosidade > 15 ? { color: "red", fontWeight: 'bold' } : { color: "black" }}>{med.luminosidade} Hz</td>
+                                                <td style={med.temperatura < 18 ? { color: "red", fontWeight: 'bold' } : { color: "black" }}>{med.temperatura}°C</td>
+                                                <td style={med.luminosidade > 7000 ? { color: "red", fontWeight: 'bold' } : { color: "black" }}>{med.luminosidade} Hz</td>
                                                 <td style={med.umidade > 10 ? { color: "red", fontWeight: 'bold' } : { color: "black" }}>{med.umidade} A</td>
-                                                <td style={med.fumaca < 800 ? { color: "red", fontWeight: 'bold' } : { color: "black" }}>{med.fumaca}</td>
-                                                <td style={med.ruido < 800 ? { color: "red", fontWeight: 'bold' } : { color: "black" }}>{med.ruido}</td>
+                                                <td style={med.fumaca > 0 ? { color: "red", fontWeight: 'bold' } : { color: "black" }}>{med.fumaca}</td>
+                                                <td style={med.ruido > 75 ? { color: "red", fontWeight: 'bold' } : { color: "black" }}>{med.ruido}</td>
                                                 <td>{med.data}</td>
                                                 <td>{med.hora}h</td>
                                             </tr>
@@ -228,12 +254,12 @@ const DetalhesDevice = () => {
                                         <Graph data={filtrarPorData(medidas, filtroData?.dataInicio, filtroData?.dataFim).map((med) => ({ data: med.data, value: med.umidade }))} title="Umidade (g/m³)" />
                                     </Col>
                                     <Col md={6}>
-                                        <Graph data={filtrarPorData(medidas, filtroData?.dataInicio, filtroData?.dataFim).map((med) => ({ data: med.data, value: med.fumaca }))} title="Fumaça" />
+                                        <Graph data={filtrarPorData(medidas, filtroData?.dataInicio, filtroData?.dataFim).map((med) => ({ data: med.data, value: med.ruido }))} title="Ruído (dB)" />
                                     </Col>
                                 </Row>
                                 <Row>
                                     <Col md={6}>
-                                        <Graph data={filtrarPorData(medidas, filtroData?.dataInicio, filtroData?.dataFim).map((med) => ({ data: med.data, value: med.ruido }))} title="Ruído (dB)" />
+                                        <Graph data={filtrarPorData(medidas, filtroData?.dataInicio, filtroData?.dataFim).map((med) => ({ data: med.data, value: med.fumaca }))} title="Fumaça" />
                                     </Col>
                                 </Row>
                             </Card.Body>

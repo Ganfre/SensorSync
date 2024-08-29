@@ -10,25 +10,18 @@ import Notificacao from './paginas/Notificacao';
 import DetalhesDevice from './componentes/DetalhesDevices';
 import { SignupForm, LoginForm } from './componentes/autenticacao/Autenticacao';
 import Logout from './paginas/Logout';
-//import { enviarEmailAlerta } from './componentes/EnvEmail';
-//import {useApi} from './hooks/useApi';
 
 function App() {
   const [menuRetracted, setMenuRetracted] = useState(false);
   const handleMenuToggle = (isRetracted) => {
     setMenuRetracted(isRetracted);
   };
-  //const {data} = useApi('/devices')
+
   return (
     <Router>
-      {/* {data?.data?.message?.map(projeto =>{
-                return(
-                    enviarEmailAlerta(projeto)
-                )
-        })} */}
       <EstilosGlobais />
       <div style={{ display: 'flex', width: '100%' }}>
-        <div style={{ width: menuRetracted ? '0px' : '200px' }}> 
+        <div style={{ width: menuRetracted ? '0px' : '200px' }}>
           <Menu onMenuToggle={handleMenuToggle} />
         </div>
         <div style={{ flex: 1, height: '100%' }}>
