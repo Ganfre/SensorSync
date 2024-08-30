@@ -219,10 +219,10 @@ const DetalhesDevice = () => {
                                         {ultimasCincoMedidas.map(med => (
                                             <tr key={med.data + med.hora}>
                                                 <td style={med.temperatura < 18 ? { color: "red", fontWeight: 'bold' } : { color: "black" }}>{med.temperatura}°C</td>
-                                                <td style={med.luminosidade > 7000 ? { color: "red", fontWeight: 'bold' } : { color: "black" }}>{med.luminosidade} Hz</td>
-                                                <td style={med.umidade > 10 ? { color: "red", fontWeight: 'bold' } : { color: "black" }}>{med.umidade} A</td>
+                                                <td style={med.luminosidade > 7000 ? { color: "red", fontWeight: 'bold' } : { color: "black" }}>{med.luminosidade} cd</td>
+                                                <td style={med.umidade > 10 ? { color: "red", fontWeight: 'bold' } : { color: "black" }}>{med.umidade} g/m³</td>
                                                 <td style={med.fumaca > 0 ? { color: "red", fontWeight: 'bold' } : { color: "black" }}>{med.fumaca}</td>
-                                                <td style={med.ruido > 75 ? { color: "red", fontWeight: 'bold' } : { color: "black" }}>{med.ruido}</td>
+                                                <td style={med.ruido > 75 ? { color: "red", fontWeight: 'bold' } : { color: "black" }}>{med.ruido} dB</td>
                                                 <td>{med.data}</td>
                                                 <td>{med.hora}h</td>
                                             </tr>
