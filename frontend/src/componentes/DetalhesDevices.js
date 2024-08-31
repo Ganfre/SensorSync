@@ -5,7 +5,7 @@ import { Container, Row, Col, Card, Table, Button } from 'react-bootstrap';
 import styled, { keyframes, css } from 'styled-components';
 import Graph from "./Graficos";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft, faTable, faFire } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faTable, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import FilterComponent from "./Filtro";
 
 const Titulo = styled.div`
@@ -106,17 +106,22 @@ const DetalhesDevice = () => {
     const { id } = useParams();
     const { data } = useApi(`/devices/detalhes/${id}`);
     const medidas = data?.data?.message?.medidas || [];
-    const [filtroData, setFiltroData] = useState(null);
+    const [filtroData, setFiltroData] = useState({
+        dataInicio: null,
+        dataFim: null
+    });
     const [showPopup, setShowPopup] = useState(false);
 
     useEffect(() => {
         const today = new Date();
         const dataInicio = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
-        setFiltroData({ dataInicio, dataFim: dataInicio });
+        const dataFim = dataInicio; // O final do dia também é o mesmo dia para filtrar um único dia
+
+        setFiltroData({ dataInicio, dataFim });
     }, []);
 
     const ultimasCincoMedidas = medidas.slice(-5);
-    const fumaca = ultimasCincoMedidas.length > 0 ? ultimasCincoMedidas[ultimasCincoMedidas.length - 1].fumaca : 0; // Obtendo o último valor de fumaça para o ícone
+    const fumaca = ultimasCincoMedidas.length > 0 ? ultimasCincoMedidas[ultimasCincoMedidas.length - 1].fumaca : 0;
 
     const exportToCsv = () => {
         const csvContent = "data:text/csv;charset=utf-8," +
@@ -136,12 +141,11 @@ const DetalhesDevice = () => {
     const filtrarPorData = (medidasFiltradas, dataInicio, dataFim) => {
         const dataInicioFiltro = new Date(dataInicio);
         const dataFimFiltro = new Date(dataFim);
-
         dataFimFiltro.setDate(dataFimFiltro.getDate() + 1);
 
         return medidasFiltradas.filter(medida => {
             const dataMedida = new Date(medida.data.replace(/(\d{2})\/(\d{2})\/(\d{4})/, '$2-$1-$3'));
-            return dataMedida >= dataInicioFiltro && dataMedida <= dataFimFiltro;
+            return dataMedida >= dataInicioFiltro && dataMedida < dataFimFiltro;
         });
     };
 
@@ -156,7 +160,7 @@ const DetalhesDevice = () => {
                 <LinhaTitulo>
                     <Titulo><h1>{data?.data?.message?.nome}</h1></Titulo>
                     <Icones>
-                        <FogoIcon icon={faFire} fumaca={fumaca} />
+                        <FogoIcon icon={faExclamationTriangle} fumaca={fumaca} />
                         <Legenda 
                             onMouseEnter={() => setShowPopup(true)}
                             onMouseLeave={() => setShowPopup(false)}
@@ -239,10 +243,13 @@ const DetalhesDevice = () => {
                         <Card>
                             <Card.Header>Gráficos</Card.Header>
                             <Card.Body>
-                                <FilterComponent setFiltroData={setFiltroData} />
+                                <FilterComponent 
+                                    setFiltroData={setFiltroData} 
+                                    dataInicio={filtroData.dataInicio} 
+                                    dataFim={filtroData.dataFim}
+                                />
                                 <Row>
                                     <Col md={6}>
-                                        {}
                                         <Graph data={filtrarPorData(medidas, filtroData?.dataInicio, filtroData?.dataFim).map((med) => ({ data: med.data, value: med.temperatura }))} title="Temperatura (°C)" />
                                     </Col>
                                     <Col md={6}>
@@ -268,8 +275,7 @@ const DetalhesDevice = () => {
                 </Row>
             </Container>
         </AdmContainer>
-    )
+    );
 }
-
 
 export default DetalhesDevice;
