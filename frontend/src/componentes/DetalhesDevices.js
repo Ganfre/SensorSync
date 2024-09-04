@@ -125,7 +125,7 @@ const DetalhesDevice = () => {
 
     const exportToCsv = () => {
         const csvContent = "data:text/csv;charset=utf-8," +
-            medidas.map(row => Object.values(row).join(",")).join("\n");
+            medidas.map(row => Object.values(row).join(";")).join("\n");
         const encodedUri = encodeURI(csvContent);
         const link = document.createElement("a");
         link.setAttribute("href", encodedUri);
