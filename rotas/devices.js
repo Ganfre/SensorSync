@@ -55,7 +55,8 @@ router.post('/', async (req, res)=>{
         luminosidade: req.body.luminosidade,
         umidade: req.body.umidade,
         fumaca: req.body.fumaca,
-        ruido: req.body.ruido
+        ruido: req.body.ruido,
+        presenca: req.body.presenca
     })
     try{
         const saveNewDevice = await novoDevice.save()

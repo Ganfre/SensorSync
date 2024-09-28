@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { FaWalking, FaUserAltSlash } from "react-icons/fa";
 
 const StyledCard = styled.div`
     box-sizing: border-box;
@@ -69,6 +70,7 @@ const Cards = ({ projeto }) => {
     console.log(ultimo);
 
     const mensagemFumaca = projeto.medidas[ultimo - 1].fumaca > 0 ? "ALERTA!" : "OK";
+    const presencaIcon = projeto.medidas[ultimo - 1].presenca > 0 ? <FaWalking color="#00cc00" /> : <FaUserAltSlash color="gray" />;
 
     return (
         <StyledCard>
@@ -82,9 +84,10 @@ const Cards = ({ projeto }) => {
                     <Info>
                         <h6>Temperatura: <span style={{ color: projeto.medidas[ultimo - 1].temperatura < 18 ? "#ff0000" : "#00cc00", fontWeight: "bold" }}>{projeto.medidas[ultimo - 1].temperatura}°C</span></h6>
                         <h6>Luminosidade: <span style={{ color: projeto.medidas[ultimo - 1].luminosidade > 7000 ? "#ff0000" : "#00cc00", fontWeight: "bold" }}>{projeto.medidas[ultimo - 1].luminosidade}cd</span></h6>
-                        <h6>Umidade: <span style={{ color: projeto.medidas[ultimo - 1].umidade > 10 ? "#ff0000" : "#00cc00", fontWeight: "bold" }}>{projeto.medidas[ultimo - 1].umidade}g/m³</span></h6>
+                        <h6>Umidade: <span style={{ color: projeto.medidas[ultimo - 1].umidade > 10 ? "#ff0000" : "#00cc00", fontWeight: "bold" }}>{projeto.medidas[ultimo - 1].umidade}%</span></h6>
                         <h6>Fumaça: <span style={{ color: projeto.medidas[ultimo - 1].fumaca > 0 ? "#ff0000" : "#00cc00", fontWeight: "bold" }}>{mensagemFumaca}</span></h6>
                         <h6>Ruído: <span style={{ color: projeto.medidas[ultimo - 1].ruido > 75 ? "#ff0000" : "#00cc00", fontWeight: "bold" }}>{projeto.medidas[ultimo - 1].ruido}dB</span></h6>
+                        <h6>Presença: {presencaIcon}</h6>
                     </Info>
                 </Content>
             </Link>

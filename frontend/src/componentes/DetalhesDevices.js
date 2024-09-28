@@ -186,7 +186,7 @@ const DetalhesDevice = () => {
                                         </tr>
                                         <tr>
                                             <th>Umidade</th>
-                                            <td>10g/m³</td>
+                                            <td>10%</td>
                                         </tr>
                                         <tr>
                                             <th>Fumaça</th>
@@ -215,6 +215,7 @@ const DetalhesDevice = () => {
                                             <th>Umidade</th>
                                             <th>Fumaça</th>
                                             <th>Ruído</th>
+                                            <th>Presença</th>
                                             <th>Data</th>
                                             <th>Hora</th>
                                         </tr>
@@ -224,9 +225,10 @@ const DetalhesDevice = () => {
                                             <tr key={med.data + med.hora}>
                                                 <td style={med.temperatura < 18 ? { color: "red", fontWeight: 'bold' } : { color: "black" }}>{med.temperatura}°C</td>
                                                 <td style={med.luminosidade > 7000 ? { color: "red", fontWeight: 'bold' } : { color: "black" }}>{med.luminosidade} cd</td>
-                                                <td style={med.umidade > 10 ? { color: "red", fontWeight: 'bold' } : { color: "black" }}>{med.umidade} g/m³</td>
+                                                <td style={med.umidade > 70 ? { color: "red", fontWeight: 'bold' } : { color: "black" }}>{med.umidade}%</td>
                                                 <td style={med.fumaca > 0 ? { color: "red", fontWeight: 'bold' } : { color: "black" }}>{med.fumaca}</td>
                                                 <td style={med.ruido > 75 ? { color: "red", fontWeight: 'bold' } : { color: "black" }}>{med.ruido} dB</td>
+                                                <td style={med.presenca > 75 ? { color: "black", fontWeight: 'bold' } : { color: "black" }}>{med.presenca}</td>
                                                 <td>{med.data}</td>
                                                 <td>{med.hora}h</td>
                                             </tr>
@@ -258,7 +260,7 @@ const DetalhesDevice = () => {
                                 </Row>
                                 <Row>
                                     <Col md={6}>
-                                        <Graph data={filtrarPorData(medidas, filtroData?.dataInicio, filtroData?.dataFim).map((med) => ({ data: med.data, value: med.umidade }))} title="Umidade (g/m³)" />
+                                        <Graph data={filtrarPorData(medidas, filtroData?.dataInicio, filtroData?.dataFim).map((med) => ({ data: med.data, value: med.umidade }))} title="Umidade (%)" />
                                     </Col>
                                     <Col md={6}>
                                         <Graph data={filtrarPorData(medidas, filtroData?.dataInicio, filtroData?.dataFim).map((med) => ({ data: med.data, value: med.ruido }))} title="Ruído (dB)" />
@@ -267,6 +269,9 @@ const DetalhesDevice = () => {
                                 <Row>
                                     <Col md={6}>
                                         <Graph data={filtrarPorData(medidas, filtroData?.dataInicio, filtroData?.dataFim).map((med) => ({ data: med.data, value: med.fumaca }))} title="Fumaça" />
+                                    </Col>
+                                    <Col md={6}>
+                                        <Graph data={filtrarPorData(medidas, filtroData?.dataInicio, filtroData?.dataFim).map((med) => ({ data: med.data, value: med.presenca }))} title="Presença" />
                                     </Col>
                                 </Row>
                             </Card.Body>
