@@ -76,10 +76,10 @@ const Menu = ({ onMenuToggle }) => {
       const dispositivosComProblemas = data.data.message.some((projeto) => {
         const ultimaMedida = projeto.medidas[projeto.medidas.length - 1];
         return (
-          ultimaMedida.temperatura < 18 ||
+          ultimaMedida.temperatura < 20 ||
           ultimaMedida.luminosidade > 7000 ||
-          ultimaMedida.umidade > 10 ||
-          ultimaMedida.fumaca > 0 ||
+          ultimaMedida.umidade > 90 ||
+          ultimaMedida.fumaca > 70 ||
           ultimaMedida.ruido > 75
         );
       });

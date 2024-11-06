@@ -95,11 +95,11 @@ const pulsar = keyframes`
 `;
 
 const FogoIcon = styled(FontAwesomeIcon)`
-    font-size: ${props => (props.fumaca > 0 ? '30px' : '27px')};
+    font-size: ${props => (props.fumaca > 70 ? '30px' : '27px')};
     padding-top: 3px;
     padding-right: 1.5rem;
-    color: ${props => (props.fumaca > 0 ? 'red' : 'lightgray')};
-    animation: ${props => props.fumaca > 0 ? css`${pulsar} 1s infinite` : 'none'};
+    color: ${props => (props.fumaca > 70 ? 'red' : 'lightgray')};
+    animation: ${props => props.fumaca > 70 ? css`${pulsar} 1s infinite` : 'none'};
 `;
 
 const DetalhesDevice = () => {
@@ -178,23 +178,23 @@ const DetalhesDevice = () => {
                                     <tbody style={{ fontSize: '16px' }}>
                                         <tr>
                                             <th>Temperatura</th>
-                                            <td>85°C</td>
+                                            <td>20°C - 24°C</td>
                                         </tr>
                                         <tr>
                                             <th>Luminosidade</th>
-                                            <td>15cd</td>
+                                            <td>7000 lm</td>
                                         </tr>
                                         <tr>
                                             <th>Umidade</th>
-                                            <td>10%</td>
+                                            <td>Méd. 50%</td>
                                         </tr>
                                         <tr>
                                             <th>Fumaça</th>
-                                            <td>800</td>
+                                            <td>Méd. 15%</td>
                                         </tr>
                                         <tr>
                                             <th>Ruído</th>
-                                            <td>800dB</td>
+                                            <td>Méd. 70%</td>
                                         </tr>
                                     </tbody>
                                 </Table>
@@ -223,10 +223,10 @@ const DetalhesDevice = () => {
                                     <tbody>
                                         {ultimasCincoMedidas.map(med => (
                                             <tr key={med.data + med.hora}>
-                                                <td style={med.temperatura < 18 ? { color: "red", fontWeight: 'bold' } : { color: "black" }}>{med.temperatura}°C</td>
-                                                <td style={med.luminosidade > 7000 ? { color: "red", fontWeight: 'bold' } : { color: "black" }}>{med.luminosidade} cd</td>
-                                                <td style={med.umidade > 70 ? { color: "red", fontWeight: 'bold' } : { color: "black" }}>{med.umidade}%</td>
-                                                <td style={med.fumaca > 0 ? { color: "red", fontWeight: 'bold' } : { color: "black" }}>{med.fumaca}</td>
+                                                <td style={med.temperatura < 20 ? { color: "red", fontWeight: 'bold' } : { color: "black" }}>{med.temperatura}°C</td>
+                                                <td style={med.luminosidade > 7000 ? { color: "red", fontWeight: 'bold' } : { color: "black" }}>{med.luminosidade} lm</td>
+                                                <td style={med.umidade > 90 ? { color: "red", fontWeight: 'bold' } : { color: "black" }}>{med.umidade}%</td>
+                                                <td style={med.fumaca > 70 ? { color: "red", fontWeight: 'bold' } : { color: "black" }}>{med.fumaca}%</td>
                                                 <td style={med.ruido > 75 ? { color: "red", fontWeight: 'bold' } : { color: "black" }}>{med.ruido} dB</td>
                                                 <td style={med.presenca > 75 ? { color: "black", fontWeight: 'bold' } : { color: "black" }}>{med.presenca}</td>
                                                 <td>{med.data}</td>
@@ -255,7 +255,7 @@ const DetalhesDevice = () => {
                                         <Graph data={filtrarPorData(medidas, filtroData?.dataInicio, filtroData?.dataFim).map((med) => ({ data: med.data, value: med.temperatura }))} title="Temperatura (°C)" />
                                     </Col>
                                     <Col md={6}>
-                                        <Graph data={filtrarPorData(medidas, filtroData?.dataInicio, filtroData?.dataFim).map((med) => ({ data: med.data, value: med.luminosidade }))} title="Luminosidade (cd)" />
+                                        <Graph data={filtrarPorData(medidas, filtroData?.dataInicio, filtroData?.dataFim).map((med) => ({ data: med.data, value: med.luminosidade }))} title="Luminosidade (lm)" />
                                     </Col>
                                 </Row>
                                 <Row>
@@ -268,7 +268,7 @@ const DetalhesDevice = () => {
                                 </Row>
                                 <Row>
                                     <Col md={6}>
-                                        <Graph data={filtrarPorData(medidas, filtroData?.dataInicio, filtroData?.dataFim).map((med) => ({ data: med.data, value: med.fumaca }))} title="Fumaça" />
+                                        <Graph data={filtrarPorData(medidas, filtroData?.dataInicio, filtroData?.dataFim).map((med) => ({ data: med.data, value: med.fumaca }))} title="Fumaça (%)" />
                                     </Col>
                                     <Col md={6}>
                                         <Graph data={filtrarPorData(medidas, filtroData?.dataInicio, filtroData?.dataFim).map((med) => ({ data: med.data, value: med.presenca }))} title="Presença" />

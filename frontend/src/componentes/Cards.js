@@ -69,7 +69,7 @@ const Cards = ({ projeto }) => {
     const ultimo = projeto.medidas.length;
     console.log(ultimo);
 
-    const mensagemFumaca = projeto.medidas[ultimo - 1].fumaca > 0 ? "ALERTA!" : "OK";
+    const mensagemFumaca = projeto.medidas[ultimo - 1].fumaca > 70 ? "ALERTA!" : "OK";
     const presencaIcon = projeto.medidas[ultimo - 1].presenca > 0 ? <FaWalking color="#00cc00" /> : <FaUserAltSlash color="gray" />;
 
     return (
@@ -82,10 +82,10 @@ const Cards = ({ projeto }) => {
                     <h6T>{projeto.medidas[ultimo - 1].data} {projeto.medidas[ultimo - 1].hora}</h6T>
                     <h6T>{projeto.medidas[ultimo - 1].netst}</h6T>
                     <Info>
-                        <h6>Temperatura: <span style={{ color: projeto.medidas[ultimo - 1].temperatura < 18 ? "#ff0000" : "#00cc00", fontWeight: "bold" }}>{projeto.medidas[ultimo - 1].temperatura}°C</span></h6>
-                        <h6>Luminosidade: <span style={{ color: projeto.medidas[ultimo - 1].luminosidade > 7000 ? "#ff0000" : "#00cc00", fontWeight: "bold" }}>{projeto.medidas[ultimo - 1].luminosidade}cd</span></h6>
-                        <h6>Umidade: <span style={{ color: projeto.medidas[ultimo - 1].umidade > 10 ? "#ff0000" : "#00cc00", fontWeight: "bold" }}>{projeto.medidas[ultimo - 1].umidade}%</span></h6>
-                        <h6>Fumaça: <span style={{ color: projeto.medidas[ultimo - 1].fumaca > 0 ? "#ff0000" : "#00cc00", fontWeight: "bold" }}>{mensagemFumaca}</span></h6>
+                        <h6>Temperatura: <span style={{ color: projeto.medidas[ultimo - 1].temperatura < 20 ? "#ff0000" : "#00cc00", fontWeight: "bold" }}>{projeto.medidas[ultimo - 1].temperatura}°C</span></h6>
+                        <h6>Luminosidade: <span style={{ color: projeto.medidas[ultimo - 1].luminosidade > 7000 ? "#ff0000" : "#00cc00", fontWeight: "bold" }}>{projeto.medidas[ultimo - 1].luminosidade} lm</span></h6>
+                        <h6>Umidade: <span style={{ color: projeto.medidas[ultimo - 1].umidade > 90 ? "#ff0000" : "#00cc00", fontWeight: "bold" }}>{projeto.medidas[ultimo - 1].umidade}%</span></h6>
+                        <h6>Fumaça: <span style={{ color: projeto.medidas[ultimo - 1].fumaca > 70 ? "#ff0000" : "#00cc00", fontWeight: "bold" }}>{mensagemFumaca}</span></h6>
                         <h6>Ruído: <span style={{ color: projeto.medidas[ultimo - 1].ruido > 75 ? "#ff0000" : "#00cc00", fontWeight: "bold" }}>{projeto.medidas[ultimo - 1].ruido}dB</span></h6>
                         <h6>Presença: {presencaIcon}</h6>
                     </Info>
