@@ -95,11 +95,11 @@ const pulsar = keyframes`
 `;
 
 const FogoIcon = styled(FontAwesomeIcon)`
-    font-size: ${props => (props.fumaca > 70 ? '30px' : '27px')};
+    font-size: ${props => (props.fumaca > 40 ? '30px' : '27px')};
     padding-top: 3px;
     padding-right: 1.5rem;
-    color: ${props => (props.fumaca > 70 ? 'red' : 'lightgray')};
-    animation: ${props => props.fumaca > 70 ? css`${pulsar} 1s infinite` : 'none'};
+    color: ${props => (props.fumaca > 40 ? 'red' : 'lightgray')};
+    animation: ${props => props.fumaca > 40 ? css`${pulsar} 1s infinite` : 'none'};
 `;
 
 const DetalhesDevice = () => {
@@ -226,7 +226,7 @@ const DetalhesDevice = () => {
                                                 <td style={med.temperatura < 20 ? { color: "red", fontWeight: 'bold' } : { color: "black" }}>{med.temperatura}°C</td>
                                                 <td style={med.luminosidade > 7000 ? { color: "red", fontWeight: 'bold' } : { color: "black" }}>{med.luminosidade} lm</td>
                                                 <td style={med.umidade > 90 ? { color: "red", fontWeight: 'bold' } : { color: "black" }}>{med.umidade}%</td>
-                                                <td style={med.fumaca > 70 ? { color: "red", fontWeight: 'bold' } : { color: "black" }}>{med.fumaca}%</td>
+                                                <td style={med.fumaca > 40 ? { color: "red", fontWeight: 'bold' } : { color: "black" }}>{med.fumaca}%</td>
                                                 <td style={med.ruido > 75 ? { color: "red", fontWeight: 'bold' } : { color: "black" }}>{med.ruido} dB</td>
                                                 <td style={med.presenca > 75 ? { color: "black", fontWeight: 'bold' } : { color: "black" }}>{med.presenca}</td>
                                                 <td>{med.data}</td>

@@ -79,7 +79,7 @@ const Menu = ({ onMenuToggle }) => {
           ultimaMedida.temperatura < 20 ||
           ultimaMedida.luminosidade > 7000 ||
           ultimaMedida.umidade > 90 ||
-          ultimaMedida.fumaca > 70 ||
+          ultimaMedida.fumaca > 40 ||
           ultimaMedida.ruido > 75
         );
       });

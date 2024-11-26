@@ -47,7 +47,7 @@ const Medidas = () => {
         if (data?.data?.message) {
             const projetosFiltrados = data.data.message.filter(projeto => {
                 const ultimaMedida = projeto.medidas[projeto.medidas.length - 1];
-                return ultimaMedida.temperatura < 20 || ultimaMedida.luminosidade > 7000 || ultimaMedida.umidade > 90 || ultimaMedida.fumaca > 70 || ultimaMedida.ruido > 75;
+                return ultimaMedida.temperatura < 20 || ultimaMedida.luminosidade > 7000 || ultimaMedida.umidade > 90 || ultimaMedida.fumaca > 40 || ultimaMedida.ruido > 75;
             });
             setProjetosComValorVermelho(projetosFiltrados);
         }
